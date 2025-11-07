@@ -1,19 +1,50 @@
 import { useState } from 'react';
-import { Upload } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Upload, AlertCircle } from 'lucide-react';
+import { cn, isSupportedImageType, formatFileSize } from '@/lib/utils';
 
 interface ImageUploaderProps {
   onImageSelect: (file: File) => void;
+  onError?: (error: string) => void;
   maxSize?: number; // MB 단위
   className?: string;
 }
 
 const ImageUploader = ({ 
-  onImageSelect, 
+  onImageSelect,
+  onError,
   maxSize = 10,
   className 
 }: ImageUploaderProps) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const validateFile = (file: File): string | null => {
+    // 파일 형식 검증
+    if (!isSupportedImageType(file)) {
+      return '지원하지 않는 파일 형식입니다. JPEG, PNG, WebP 파일만 업로드 가능합니다.';
+    }
+
+    // 파일 크기 검증 (MB를 바이트로 변환)
+    const maxSizeInBytes = maxSize * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
+      return `파일 크기가 너무 큽니다. 최대 ${maxSize}MB까지 업로드 가능합니다. (현재: ${formatFileSize(file.size)})`;
+    }
+
+    return null;
+  };
+
+  const handleFileSelect = (file: File) => {
+    const validationError = validateFile(file);
+    
+    if (validationError) {
+      setError(validationError);
+      onError?.(validationError);
+      return;
+    }
+
+    setError(null);
+    onImageSelect(file);
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -33,7 +64,10 @@ const ImageUploader = ({
     const imageFile = files.find(file => file.type.startsWith('image/'));
     
     if (imageFile) {
-      onImageSelect(imageFile);
+      handleFileSelect(imageFile);
+    } else if (files.length > 0) {
+      setError('이미지 파일을 업로드해주세요.');
+      onError?.('이미지 파일을 업로드해주세요.');
     }
   };
 
@@ -72,7 +106,7 @@ const ImageUploader = ({
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
-                  onImageSelect(file);
+                  handleFileSelect(file);
                 }
               }}
             />
@@ -87,6 +121,15 @@ const ImageUploader = ({
             여기에 파일을 드래그하세요
           </span>
         </div>
+
+        {error && (
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+            <div className="flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
+              <span className="text-sm text-red-700">{error}</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
