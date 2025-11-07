@@ -38,7 +38,30 @@ const ImageUploader = ({
           </p>
         </div>
         
-        {/* 파일 선택 버튼은 다음 단계에서 구현 */}
+        <div className="flex flex-col sm:flex-row gap-3 items-center">
+          <label className="relative cursor-pointer">
+            <input
+              type="file"
+              className="sr-only"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  onImageSelect(file);
+                }
+              }}
+            />
+            <div className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+              파일 선택
+            </div>
+          </label>
+          
+          <span className="text-sm text-gray-400">또는</span>
+          
+          <span className="text-sm text-gray-500">
+            여기에 파일을 드래그하세요
+          </span>
+        </div>
       </div>
     </div>
   );
