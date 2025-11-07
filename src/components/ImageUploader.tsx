@@ -15,6 +15,28 @@ const ImageUploader = ({
 }: ImageUploaderProps) => {
   const [isDragging, setIsDragging] = useState(false);
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    const imageFile = files.find(file => file.type.startsWith('image/'));
+    
+    if (imageFile) {
+      onImageSelect(imageFile);
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -23,6 +45,9 @@ const ImageUploader = ({
         isDragging && 'border-blue-500 bg-blue-50',
         className
       )}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
     >
       <div className="flex flex-col items-center space-y-4">
         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
