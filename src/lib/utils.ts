@@ -32,7 +32,9 @@ export function hexToColor(hex: string): Color {
  * 색상을 RGB 문자열로 변환
  */
 export function colorToRgb(color: Color): string {
-  return `rgb(${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(color.b)})`;
+  return `rgb(${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(
+    color.b
+  )})`;
 }
 
 /**
@@ -48,7 +50,10 @@ export function colorDistance(color1: Color, color2: Color): number {
 /**
  * 색상 배열에서 가장 가까운 색상의 인덱스 찾기
  */
-export function findClosestColorIndex(targetColor: Color, palette: Color[]): number {
+export function findClosestColorIndex(
+  targetColor: Color,
+  palette: Color[]
+): number {
   let minDistance = Infinity;
   let closestIndex = 0;
 
@@ -76,11 +81,11 @@ export function isSupportedImageType(file: File): boolean {
  */
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes';
-  
+
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
+
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
@@ -94,15 +99,15 @@ export function calculateAspectRatio(
   maxHeight: number
 ): { width: number; height: number } {
   const aspectRatio = originalWidth / originalHeight;
-  
+
   let width = maxWidth;
   let height = maxWidth / aspectRatio;
-  
+
   if (height > maxHeight) {
     height = maxHeight;
     width = maxHeight * aspectRatio;
   }
-  
+
   return { width: Math.round(width), height: Math.round(height) };
 }
 

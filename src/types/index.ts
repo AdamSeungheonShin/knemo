@@ -8,10 +8,10 @@ export interface Color {
 
 // 픽셀 아트 설정
 export interface PixelArtConfig {
-  width: number;        // 1-500
-  height: number;       // 1-500
-  colorCount: number;   // 2-14
-  dithering: boolean;   // 디더링 적용 여부
+  width: number; // 1-500
+  height: number; // 1-500
+  colorCount: number; // 2-14
+  dithering: boolean; // 디더링 적용 여부
 }
 
 // 픽셀 그리드의 개별 픽셀
@@ -48,22 +48,22 @@ export interface AppState {
   currentImage: File | null;
   currentProject: PixelArtProject | null;
   pixelGrid: PixelGrid | null;
-  
+
   // 편집기 상태
   editorMode: 'view' | 'edit';
   selectedColor: Color;
   selectedColorIndex: number;
   brushSize: 1 | 2 | 3;
   showGrid: boolean;
-  
+
   // 히스토리 (실행 취소/다시 실행)
   history: PixelGrid[];
   historyIndex: number;
-  
+
   // UI 상태
   isLoading: boolean;
   error: string | null;
-  
+
   // 설정
   theme: 'light' | 'dark' | 'system';
 }
