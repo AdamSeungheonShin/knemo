@@ -1,7 +1,8 @@
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
-interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+interface SliderProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
   showValue?: boolean;
   valuePrefix?: string;
@@ -9,28 +10,31 @@ interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'
 }
 
 const Slider = forwardRef<HTMLInputElement, SliderProps>(
-  ({ 
-    className, 
-    label,
-    showValue = false,
-    valuePrefix = '',
-    valueSuffix = '',
-    value,
-    min = 0,
-    max = 100,
-    step = 1,
-    ...props 
-  }, ref) => {
+  (
+    {
+      className,
+      label,
+      showValue = false,
+      valuePrefix = '',
+      valueSuffix = '',
+      value,
+      min = 0,
+      max = 100,
+      step = 1,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <div className="space-y-2">
         {label && (
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-gray-700">
-              {label}
-            </label>
+            <label className="text-sm font-medium text-gray-700">{label}</label>
             {showValue && (
               <span className="text-sm text-gray-500">
-                {valuePrefix}{value}{valueSuffix}
+                {valuePrefix}
+                {value}
+                {valueSuffix}
               </span>
             )}
           </div>

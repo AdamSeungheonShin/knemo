@@ -69,22 +69,20 @@ const Modal = ({
           className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
           onClick={closeOnOverlayClick ? onClose : undefined}
         />
-        
+
         {/* 모달 컨텐츠 */}
         <div
           className={cn(
             'relative w-full bg-white rounded-lg shadow-xl transform transition-all',
             sizes[size]
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={e => e.stopPropagation()}
         >
           {/* 헤더 */}
           {(title || showCloseButton) && (
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               {title && (
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {title}
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
               )}
               {showCloseButton && (
                 <Button
@@ -98,11 +96,9 @@ const Modal = ({
               )}
             </div>
           )}
-          
+
           {/* 바디 */}
-          <div className="p-6">
-            {children}
-          </div>
+          <div className="p-6">{children}</div>
         </div>
       </div>
     </div>
